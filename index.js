@@ -16,6 +16,13 @@ app.get("/", (req, res) => {
   res.send("API is running");
 });
 
+app.use("/api/auth", require("./routes/authRoutes"));
+
+const dashboardRoutes = require("./routes/dashboardRoutes");
+
+app.use("/api/dashboard", dashboardRoutes);
+
+
 // Connect DB & start server
 connectDB();
 
