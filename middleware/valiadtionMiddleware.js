@@ -4,7 +4,7 @@ exports.registerValidation = [
   body("name")
     .trim()
     .not().isEmpty().withMessage("Name is required")
-    .isAlpha('en-US', { ignore: ' ' }).withMessage("Name must contain only letters"),
+    .withMessage("Name must contain only letters"),
 
   body("email")
     .trim()
