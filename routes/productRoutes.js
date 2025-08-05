@@ -2,6 +2,34 @@ const express = require("express");
 const router = express.Router();
 const Product = require("../models/Product");
 const protect = require("../middleware/authMiddleware");
+const upload = require("../middleware/uploadMiddleware");
+const cloudinary = require("../config/cloudinary");
+
+// @desc    Upload product image to Cloudinary
+// @route   POST /api/products/upload-image
+// @access  Private
+router.post("/upload-image", protect, upload.single("image"), async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ message: "No image file provided" });
+    }
+    // Upload to Cloudinary
+    const streamifier = require("streamifier");
+    let responded = false;
+    const stream = cloudinary.uploader.upload_stream({
+      folder: "nearbuy/products",
+      resource_type: "image"
+    }, (error, result) => {
+      if (responded) return;
+      responded = true;
+      if (error) return res.status(500).json({ message: "Cloudinary upload failed", error });
+      res.json({ url: result.secure_url });
+    });
+    streamifier.createReadStream(req.file.buffer).pipe(stream);
+  } catch (error) {
+    res.status(500).json({ message: "Image upload failed", error: error.message });
+  }
+});
 
 // @desc    Get all products (public)
 // @route   GET /api/products
