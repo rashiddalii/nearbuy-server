@@ -22,7 +22,7 @@ app.get("/", (req, res) => {
 app.use("/api/auth", require("./routes/authRoutes"));
 app.use("/api/products", require("./routes/productRoutes"));
 app.use("/api/users", userRoutes);
-app.use("/api/reviews", require("./routes/reviewRoutes"));
+// app.use("/api/reviews", require("./routes/reviewRoutes")); // Temporarily disabled - review system needs fixing
 app.use("/api/chats", require("./routes/chatRoutes"));
 app.use("/api/messages", require("./routes/messageRoutes"));
 
