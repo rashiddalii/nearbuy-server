@@ -19,6 +19,8 @@ app.get("/", (req, res) => {
 
 
 
+
+
 app.use("/api/auth", require("./routes/authRoutes"));
 app.use("/api/products", require("./routes/productRoutes"));
 app.use("/api/users", userRoutes);
@@ -46,14 +48,29 @@ const io = new Server(server, {
 });
 
 io.on('connection', (socket) => {
+  console.log('User connected:', socket.id);
+  
   // Join a chat room
   socket.on('join', (chatId) => {
+    console.log(`User ${socket.id} joining chat: ${chatId}`);
     socket.join(chatId);
   });
 
   // Handle sending a message
   socket.on('sendMessage', ({ chatId, message }) => {
-    io.to(chatId).emit('receiveMessage', message);
+    console.log(`Message sent to chat ${chatId}:`, message);
+    // Broadcast to all users in the chat room except the sender
+    socket.to(chatId).emit('receiveMessage', message);
+  });
+
+  // Handle leaving a chat room
+  socket.on('leave', (chatId) => {
+    console.log(`User ${socket.id} leaving chat: ${chatId}`);
+    socket.leave(chatId);
+  });
+
+  socket.on('disconnect', () => {
+    console.log('User disconnected:', socket.id);
   });
 });
 
