@@ -63,6 +63,13 @@ io.on('connection', (socket) => {
     socket.to(chatId).emit('receiveMessage', message);
   });
 
+  // Handle marking messages as read
+  socket.on('markAsRead', ({ chatId, messageIds }) => {
+    console.log(`Messages marked as read in chat ${chatId}:`, messageIds);
+    // Broadcast read status to all users in the chat room
+    socket.to(chatId).emit('messagesRead', { chatId, messageIds });
+  });
+
   // Handle leaving a chat room
   socket.on('leave', (chatId) => {
     console.log(`User ${socket.id} leaving chat: ${chatId}`);

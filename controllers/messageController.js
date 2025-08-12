@@ -36,6 +36,16 @@ exports.markAsRead = async (req, res) => {
     const { chatId } = req.params;
     const userId = req.user.id;
 
+    // Find all unread messages in this chat (except sender's own messages)
+    const unreadMessages = await Message.find({
+      chat: chatId,
+      sender: { $ne: userId },
+      read: false
+    });
+
+    // Get the message IDs before marking them as read
+    const messageIds = unreadMessages.map(msg => msg._id.toString());
+
     // Mark all unread messages in this chat as read (except sender's own messages)
     await Message.updateMany(
       { 
@@ -46,7 +56,10 @@ exports.markAsRead = async (req, res) => {
       { read: true }
     );
 
-    res.json({ message: 'Messages marked as read' });
+    res.json({ 
+      message: 'Messages marked as read',
+      messageIds: messageIds
+    });
   } catch (err) {
     res.status(500).json({ message: 'Server error', error: err.message });
   }

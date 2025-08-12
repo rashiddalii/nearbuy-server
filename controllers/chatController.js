@@ -47,11 +47,19 @@ exports.getUserChats = async (req, res) => {
       chats.map(async (chat) => {
         const messages = await Message.find({ chat: chat._id })
           .populate('sender', 'name')
-          .sort({ createdAt: -1 })
-          .limit(10); // Get last 10 messages
+          .sort({ createdAt: 1 }); // Sort by oldest first so last message is at the end
+        
+        // Get the last message for display
+        const lastMessage = messages.length > 0 ? messages[messages.length - 1].text : '';
+        const lastMessageTime = messages.length > 0 ? messages[messages.length - 1].createdAt : chat.updatedAt;
+        
+        // Only keep last 10 messages for performance
+        const recentMessages = messages.slice(-10);
         
         const chatObj = chat.toObject();
-        chatObj.messages = messages;
+        chatObj.messages = recentMessages;
+        chatObj.lastMessage = lastMessage;
+        chatObj.lastMessageTime = lastMessageTime; // Add the timestamp of the last message
         
         // Add a helper field to identify the other user
         const otherUser = chat.members.find(member => member._id.toString() !== currentUserId);
