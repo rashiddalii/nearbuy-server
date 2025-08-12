@@ -24,7 +24,7 @@ exports.getOrCreateChat = async (req, res) => {
     
     // Populate the chat with member and product info
     await chat.populate('members', 'name');
-    await chat.populate('product', 'title images');
+    await chat.populate('product', 'title images price');
     
     res.json(chat);
   } catch (err) {
@@ -40,7 +40,7 @@ exports.getUserChats = async (req, res) => {
     // Find all chats where the current user is a member
     const chats = await Chat.find({ members: currentUserId })
       .populate('members', 'name')
-      .populate('product', 'title images');
+      .populate('product', 'title images price');
     
     // Get messages for each chat to calculate unread counts
     const chatsWithMessages = await Promise.all(
