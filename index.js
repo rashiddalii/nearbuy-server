@@ -27,6 +27,7 @@ app.use("/api/users", userRoutes);
 // app.use("/api/reviews", require("./routes/reviewRoutes")); // Temporarily disabled - review system needs fixing
 app.use("/api/chats", require("./routes/chatRoutes"));
 app.use("/api/messages", require("./routes/messageRoutes"));
+app.use("/api/saved-items", require("./routes/savedItemRoutes"));
 
 const dashboardRoutes = require("./routes/dashboardRoutes");
 
