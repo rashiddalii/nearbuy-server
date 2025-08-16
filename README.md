@@ -91,7 +91,7 @@ NearBuy Backend is a powerful Node.js/Express API that serves as the backbone fo
 
 ### Step 1: Clone the Repository
 ```bash
-git clone https://github.com/rashidd_alii/nearbuy-server.git
+git clone https://github.com/rashiddalii/nearbuy-server.git
 cd nearbuy-server
 ```
 
@@ -358,7 +358,7 @@ This project is licensed under the MIT License - see the [LICENSE](../LICENSE) f
 
 This backend API powers the NearBuy frontend application. For the complete full-stack experience:
 
-**Frontend Repository**: [NearBuy Frontend](https://github.com/rashidd_alii/nearbuy-client)
+**Frontend Repository**: [NearBuy Frontend](https://github.com/rashiddalii/nearbuy-client)
 
 The frontend provides:
 - React-based user interface
@@ -379,7 +379,7 @@ The frontend provides:
 
 If you have any questions or need help:
 - 📧 Email: mrashidali7540@gmail.com
-- 🐛 Issues: [GitHub Issues](https://github.com/rashidd_alii/nearbuy-server/issues)
+- 🐛 Issues: [GitHub Issues](https://github.com/rashiddalii/nearbuy-server/issues)
 
 ---
 
